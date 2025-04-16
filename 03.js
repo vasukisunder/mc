@@ -207,12 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Video sources
     const videoSources = [
-        "assets/church/1.MOV",
-        "assets/church/2.MOV",
-        "assets/church/4.MOV",
-        "assets/church/5.MOV",
-        "assets/church/6.MOV",
-        "assets/church/7.MOV",
+        "assets/1.mp4",
+        "assets/2.mp4",
+        "assets/3.mp4",
+        "assets/4.mp4",
+        "assets/5.mp4",
+        "assets/6.mp4",
+        "assets/7.mp4",
     ];
 
     // Consistent interval for all text boxes (in milliseconds)
@@ -255,7 +256,45 @@ document.addEventListener('DOMContentLoaded', () => {
         box.style.transition = 'opacity 0.5s ease-in-out';
     });
 
-    // Function to convert a grid item to a video box
+    // Function to convert video box to text box
+    function convertToTextBox(box) {
+        // Get box index
+        const boxIndex = parseInt(box.getAttribute('data-box-index'));
+        
+        // Get corresponding text content
+        const textKey = boxToTextMap[boxIndex];
+        
+        // Save the class list (wide, tall, etc.)
+        const classList = box.className.split(' ').filter(cls => 
+            cls !== 'grid-item' && cls !== 'video-box' && cls !== 'text-box');
+        
+        // Clear the box
+        box.innerHTML = '';
+        
+        // Update classes
+        box.className = 'grid-item text-box';
+        classList.forEach(cls => box.classList.add(cls));
+        
+        // Set ID for current display (not for permanent mapping)
+        const displayId = 'display-' + boxIndex;
+        box.id = displayId;
+        
+        // Get the text content for this box
+        const textArray = textContents[textKey];
+        const randomText = textArray[Math.floor(Math.random() * textArray.length)];
+        box.textContent = randomText;
+        
+        // Store in elements for updates
+        textElements[displayId] = box;
+        
+        // Set interval for text updates from the mapped text content
+        intervals[displayId] = setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * textArray.length);
+            box.textContent = textArray[randomIndex];
+        }, TEXT_UPDATE_INTERVAL);
+    }
+
+    // Function to convert text box to video box
     function convertToVideoBox(box) {
         // Clear intervals for this text box if it exists
         if (box.id && intervals[box.id]) {
@@ -276,98 +315,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove ID but keep the data-box-index attribute
         box.removeAttribute('id');
         
-        // Create video element
+        // Create and add video element
         const video = document.createElement('video');
+        video.autoplay = true;
         video.muted = true;
         video.loop = true;
-        video.preload = 'auto';
-        video.playsinline = true; // Add playsinline attribute for iOS
-        video.setAttribute('playsinline', ''); // Ensure it works on all browsers
-        video.setAttribute('webkit-playsinline', ''); // For older iOS
+        video.preload = "auto";
+        video.playsinline = true;
         
-        // Select random video source
-        const randomSource = videoSources[Math.floor(Math.random() * videoSources.length)];
-        video.src = randomSource;
+        // Add error handling
+        video.onerror = function() {
+            console.error("Video error: ", video.error, "for source:", source.src);
+            // Fallback to a text box if video fails to load
+            convertToTextBox(box);
+        };
         
-        // Add to box
+        const source = document.createElement('source');
+        const randomVideoSrc = videoSources[Math.floor(Math.random() * videoSources.length)];
+        source.src = randomVideoSrc;
+        source.type = 'video/mp4';
+        
+        video.appendChild(source);
         box.appendChild(video);
-        
-        // Start playing
-        const playPromise = video.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // Playback started successfully
-            })
-            .catch(e => {
-                console.log("Video play error:", e);
-                // Create a play button overlay if it doesn't exist
-                if (!document.getElementById('play-overlay')) {
-                    const playOverlay = document.createElement('div');
-                    playOverlay.id = 'play-overlay';
-                    playOverlay.innerHTML = '⏯️';
-                    playOverlay.style.position = 'fixed';
-                    playOverlay.style.top = '50%';
-                    playOverlay.style.left = '50%';
-                    playOverlay.style.transform = 'translate(-50%, -50%)';
-                    playOverlay.style.fontSize = '3rem';
-                    playOverlay.style.color = 'white';
-                    playOverlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
-                    playOverlay.style.padding = '1rem';
-                    playOverlay.style.borderRadius = '50%';
-                    playOverlay.style.cursor = 'pointer';
-                    playOverlay.style.zIndex = '1001';
-                    
-                    // Add click event to play videos
-                    playOverlay.addEventListener('click', () => {
-                        document.querySelectorAll('video').forEach(v => {
-                            v.play().catch(() => {}); // Enable playback on all videos
-                        });
-                        playOverlay.remove(); // Remove overlay after click
-                    });
-                    
-                    document.body.appendChild(playOverlay);
-                }
-            });
-        }
-    }
-
-    // Function to convert text box to video box
-    function convertToTextBox(box) {
-        // Clear intervals for this text box if it exists
-        if (box.id && intervals[box.id]) {
-            clearInterval(intervals[box.id]);
-        }
-        
-        // Save the class list (wide, tall, etc.)
-        const classList = box.className.split(' ').filter(cls => 
-            cls !== 'grid-item' && cls !== 'video-box' && cls !== 'text-box');
-        
-        // Clear the box
-        box.innerHTML = '';
-        
-        // Update classes
-        box.className = 'grid-item text-box';
-        classList.forEach(cls => box.classList.add(cls));
-        
-        // Set ID for current display (not for permanent mapping)
-        const displayId = 'display-' + box.getAttribute('data-box-index');
-        box.id = displayId;
-        
-        // Get the text content for this box
-        const textKey = boxToTextMap[box.getAttribute('data-box-index')];
-        const textArray = textContents[textKey];
-        const randomText = textArray[Math.floor(Math.random() * textArray.length)];
-        box.textContent = randomText;
-        
-        // Store in elements for updates
-        textElements[displayId] = box;
-        
-        // Set interval for text updates from the mapped text content
-        intervals[displayId] = setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * textArray.length);
-            box.textContent = textArray[randomIndex];
-        }, TEXT_UPDATE_INTERVAL);
     }
 
     // Add click event listener to all grid items
@@ -381,10 +350,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Initialize ALL boxes as video boxes on page load
-    document.querySelectorAll('.grid-item').forEach(box => {
-        // Force all boxes to be video boxes, even if they were already
-        // This ensures consistent video paths and formatting
-        convertToVideoBox(box);
+    // Initialize boxes in a staggered way
+    document.querySelectorAll('.grid-item').forEach((box, index) => {
+        // Add a slight delay for each box to prevent all videos loading simultaneously
+        setTimeout(() => {
+            convertToVideoBox(box);
+            // Add a loaded event to monitor which videos are successfully loading
+            const videoElement = box.querySelector('video');
+            if (videoElement) {
+                videoElement.addEventListener('loadeddata', function() {
+                    console.log("Video loaded successfully:", videoElement.querySelector('source').src);
+                });
+            }
+        }, index * 200); // Increased delay to 200ms between each video initialization
     });
 }); 

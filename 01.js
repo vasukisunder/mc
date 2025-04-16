@@ -24,15 +24,16 @@ const purgatorioVerses = [
 
 // Actual videos from assets folder
 const availableVideos = [
-    'assets/IMG_0822.MOV',
-    'assets/IMG_0823.MOV',
-    'assets/IMG_0845.MOV',
-    'assets/IMG_0847.MOV',
-    'assets/IMG_0850.MOV',
-    'assets/IMG_0852.MOV',
-    'assets/IMG_0844.MOV',
-    'assets/IMG_1120.MOV',
-    'assets/IMG_1163.MOV'
+    'assets/IMG_0822.mp4',
+    'assets/IMG_0823.mp4',
+    'assets/IMG_0845.mp4',
+    'assets/IMG_0844.mp4',
+    'assets/IMG_0850.mp4',
+    'assets/IMG_0852.mp4',
+    'assets/IMG_0864.mp4',
+    'assets/IMG_1120.mp4',
+    'assets/IMG_1163.mp4'
+
 ];
 
 // Create a randomized array of video sources for the 20 verses
@@ -86,9 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         video.muted = true;
         video.loop = true;
         video.preload = 'auto';
-        video.playsinline = true; // Add playsinline attribute for iOS
-        video.setAttribute('playsinline', ''); // Ensure it works on all browsers
-        video.setAttribute('webkit-playsinline', ''); // For older iOS
         video.style.opacity = 0;
         videoContainer.appendChild(video);
     });
@@ -128,48 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Show and play this video
                 video.style.opacity = 1;
-                
-                // Handle autoplay restrictions
-                const playPromise = video.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        // Playback started successfully
-                    })
-                    .catch(e => {
-                        console.log("Video play error:", e);
-                        // Auto-play was prevented, show a UI element to let the user manually start playback
-                        video.style.opacity = 1; // Still show the video frame
-                        
-                        // Create a play button overlay if it doesn't exist
-                        if (!document.getElementById('play-overlay')) {
-                            const playOverlay = document.createElement('div');
-                            playOverlay.id = 'play-overlay';
-                            playOverlay.innerHTML = '⏯️';
-                            playOverlay.style.position = 'fixed';
-                            playOverlay.style.top = '50%';
-                            playOverlay.style.left = '50%';
-                            playOverlay.style.transform = 'translate(-50%, -50%)';
-                            playOverlay.style.fontSize = '3rem';
-                            playOverlay.style.color = 'white';
-                            playOverlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
-                            playOverlay.style.padding = '1rem';
-                            playOverlay.style.borderRadius = '50%';
-                            playOverlay.style.cursor = 'pointer';
-                            playOverlay.style.zIndex = '1001';
-                            
-                            // Add click event to play videos
-                            playOverlay.addEventListener('click', () => {
-                                document.querySelectorAll('.background-video').forEach(v => {
-                                    v.play().catch(() => {}); // Enable playback on all videos
-                                });
-                                playOverlay.remove(); // Remove overlay after click
-                            });
-                            
-                            document.body.appendChild(playOverlay);
-                        }
-                    });
-                }
+                video.play().catch(e => console.log("Video play error:", e));
             }
         });
         

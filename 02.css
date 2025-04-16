@@ -18,16 +18,13 @@ body {
     top: 20px;
     left: 20px;
     text-decoration: none;
-    color: #2c2c2c;
-    border: 1px solid #2c2c2c;
-    padding: 4px 8px;
-    font-size: 0.7rem;
-    z-index: 1000;
+    color: #888;
+    font-size: 0.9rem;
+    z-index: 10;
 }
 
 .back:hover {
-    background-color: #2c2c2c;
-    color: #f5f2e9;
+    color: #000;
 }
 
 #poem-container {
