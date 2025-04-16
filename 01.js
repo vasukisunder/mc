@@ -30,7 +30,6 @@ const availableVideos = [
     'assets/IMG_0847.MOV',
     'assets/IMG_0850.MOV',
     'assets/IMG_0852.MOV',
-    'assets/IMG_0864.MOV',
     'assets/IMG_0844.MOV',
     'assets/IMG_1120.MOV',
     'assets/IMG_1163.MOV'

@@ -209,12 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoSources = [
         "assets/church/1.MOV",
         "assets/church/2.MOV",
-        "assets/church/3.MOV",
         "assets/church/4.MOV",
         "assets/church/5.MOV",
         "assets/church/6.MOV",
         "assets/church/7.MOV",
-        "assets/church/8.MOV"
     ];
 
     // Consistent interval for all text boxes (in milliseconds)
