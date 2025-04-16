@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', serif;
+    background-color: #f5f1ea;
+    color: #333;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
+    position: relative;
+}
+
+.back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: #888;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+.back:hover {
+    color: #000;
+}
+
+#poem-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling within container */
+}
+
+.poem-line {
+    position: absolute;
+    font-size: 1rem;
+    max-width: 80%;
+    line-height: 1.6;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.line-link {
+    color: #666;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.line-link:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.connecting-line {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 0.4px;
+    transform-origin: 0% 0%;
+    z-index: 0;
+    transition: width 0.8s ease-out;
+    pointer-events: none; /* Allow interactions with elements beneath the line */
+}
+
+@media (max-width: 768px) {
+    .poem-line {
+        font-size: 1.2rem;
+        max-width: 90%;
+    }
+} 

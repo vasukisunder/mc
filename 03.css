@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+    background-color: #f5f2e9;
+    color: #2c2c2c;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    padding: 0;
+    text-transform: lowercase;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+}
+
+.back {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    text-decoration: none;
+    color: #2c2c2c;
+    border: 1px solid #2c2c2c;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    z-index: 1000;
+}
+
+.back:hover {
+    background-color: #2c2c2c;
+    color: #f5f2e9;
+}
+
+.masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 8px;
+    height: 100vh;
+    width: 100%;
+    padding: 40px 8px 8px 8px;
+}
+
+.grid-item {
+    overflow: hidden;
+    border-radius: 0;
+    background-color: rgba(245, 242, 233, 0.8);
+    border: 1px solid rgba(44, 44, 44, 0.1);
+    transition: opacity 0.5s ease, filter 0.5s ease, transform 0.5s ease, background-color 0.5s ease;
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+}
+
+.grid-item:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(44, 44, 44, 0.2);
+}
+
+/* Varying shapes */
+.wide {
+    grid-column: span 2;
+}
+
+.tall {
+    grid-row: span 2;
+}
+
+.wide-tall {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/* Video styling */
+.video-box {
+    position: relative;
+}
+
+.video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+}
+
+/* Text box styling */
+.text-box {
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    color: #2c2c2c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .masonry-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .text-box {
+        font-size: 9px;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 500px) {
+    .masonry-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    
+    .text-box {
+        font-size: 8px;
+        padding: 4px;
+    }
+} 
