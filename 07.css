@@ -1,0 +1,71 @@
+:root {
+    --bg-color: #f0f0f0;
+    --text-color: #333;
+    --accent-color: red;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+#text-container {
+    width: 100%;
+    height: 100%;
+    text-align: justify;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    hyphens: auto;
+    overflow: hidden;
+}
+
+.text-chunk {
+    display: inline;
+    transition: color 0.3s ease;
+    cursor: default;
+}
+
+.verse {
+    display: inline;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.verse:hover {
+    color: var(--accent-color);
+}
+
+.verse.revealed {
+    color: var(--accent-color);
+    font-style: italic;
+}
+
+.back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.7rem;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.back:hover {
+    opacity: 1;
+} 

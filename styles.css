@@ -1,8 +1,7 @@
-
 :root {
     --bg-color: #f0f0f0;
     --text-color: #333;
-    --accent-color: #0000ff;
+    --accent-color: red;
 }
 
 * {
@@ -52,9 +51,9 @@ p {
 
 .link-item {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
 }
 
 .link {
@@ -67,6 +66,8 @@ p {
     letter-spacing: 1px;
     background-color: transparent;
     display: inline-block;
+    min-width: 45px;
+    text-align: center;
 }
 
 .link:hover {
@@ -77,9 +78,7 @@ p {
 .link-description {
     font-size: 0.7rem;
     opacity: 0.6;
-    max-width: 80%;
-    margin-top: 5px;
-    margin-bottom: 0;
+    margin: 0;
     line-height: 1.4;
 }
 
@@ -94,4 +93,12 @@ p {
     right: 20px;
     font-size: 0.7rem;
     opacity: 0.5;
+}
+
+.section-header {
+    font-size: 0.8rem;
+    opacity: 0.5;
+    margin-bottom: -15px;
+    font-weight: normal;
+    letter-spacing: 1px;
 } 
