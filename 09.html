@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 - Exploration</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh;
+            background: #111;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            font-family: monospace;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .leaflet-container {
+            background: #111;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #111;
+            color: #fff;
+            border-radius: 0;
+            font-family: monospace;
+        }
+
+        .leaflet-popup-tip {
+            background: #111;
+        }
+
+        .leaflet-control-attribution {
+            background: rgba(0, 0, 0, 0.5) !important;
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        .leaflet-control-attribution a {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .note-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 5px;
+        }
+
+        .note-form textarea {
+            background: #222;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            font-family: monospace;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .note-form button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            font-family: monospace;
+            cursor: pointer;
+        }
+
+        .note-form button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 250px;
+        }
+
+        .custom-pin {
+            color: #ff3333;
+            font-size: 30px;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        .map-style-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .style-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .style-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .style-button.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← back</a>
+    <div id="map"></div>
+    <div class="instructions">click anywhere on the map to add a pin and note</div>
+    
+    <div class="map-style-control">
+        <button class="style-button active" data-style="dark_matter">Dark Matter</button>
+        <button class="style-button" data-style="positron">Positron</button>
+        <button class="style-button" data-style="voyager">Voyager</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize map with dark style
+        const map = L.map('map', {
+            minZoom: 3,
+            maxBounds: [[-90, -180], [90, 180]]
+        }).setView([39.5, -98.5], 4);
+        
+        // Define tile layers
+        const tileLayers = {
+            dark_matter: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                minZoom: 3,
+                maxZoom: 19
+            }),
+            positron: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                minZoom: 3,
+                maxZoom: 19
+            }),
+            voyager: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                minZoom: 3,
+                maxZoom: 19
+            })
+        };
+        
+        // Add default tile layer (Dark Matter)
+        tileLayers.dark_matter.addTo(map);
+        
+        // Set up style toggle buttons
+        document.querySelectorAll('.style-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const style = this.getAttribute('data-style');
+                
+                // Remove all layers
+                Object.values(tileLayers).forEach(layer => {
+                    if (map.hasLayer(layer)) {
+                        map.removeLayer(layer);
+                    }
+                });
+                
+                // Add selected layer
+                tileLayers[style].addTo(map);
+                
+                // Update button classes
+                document.querySelectorAll('.style-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Custom icon for pins
+        const pinIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ed/Map_pin_icon.svg',
+            iconSize: [20, 20],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
+
+        const predefinedPins = [
+            { lat: 40.7128, lng: -74.0060, note: "Here let dead poetry rise" },
+            { lat: 23.4162, lng: 25.6628, note: "When you've found your way back to the world" },
+            { lat: 35.6762, lng: 139.6503, note: "From this long road you have run" },
+            { lat: -33.8688, lng: 151.2093, note: "Speak my name with living breath" },
+            { lat: 19.4326, lng: -99.1332, note: "Wait! Won't you pause, why do you run?" },
+            // Additional US locations
+            { lat: 37.7749, lng: -122.4194, note: "Is there no one here you recognize, not one?" },
+            { lat: 47.6062, lng: -122.3321, note: "I must wait here til the heavens wheel past" },
+            { lat: 41.8781, lng: -87.6298, note: "A mountain, a climb between night and day" },
+            { lat: 30.2672, lng: -97.7431, note: "We moved then to the deserted strand" },
+            { lat: 34.0522, lng: -118.2437, note: "We labor up through the riven rock" },
+            { lat: 39.9526, lng: -75.1652, note: "There my sight failed" },
+            { lat: 42.3601, lng: -71.0589, note: "Pages turn in the winds from the harbor" }
+        ];
+
+        // Add pre-defined pins to map
+        predefinedPins.forEach(pin => {
+            addMarkerWithPopup(pin.lat, pin.lng, pin.note);
+        });
+
+        // Function to add a marker with a popup
+        function addMarkerWithPopup(lat, lng, note = null) {
+            const marker = L.marker([lat, lng], { icon: pinIcon }).addTo(map);
+            
+            if (note) {
+                // For existing notes
+                marker.bindPopup(`<div class="note-content">${note}</div>`);
+            } else {
+                // For new notes
+                const popupContent = `
+                    <div class="note-form">
+                        <textarea placeholder="Add your note here"></textarea>
+                        <button type="button" onclick="saveNote(this, ${lat}, ${lng})">Save</button>
+                    </div>
+                `;
+                
+                marker.bindPopup(popupContent).openPopup();
+            }
+            
+            return marker;
+        }
+
+        // Handle map clicks to add new pins
+        map.on('click', function(e) {
+            addMarkerWithPopup(e.latlng.lat, e.latlng.lng);
+        });
+
+        // Function to save a note
+        window.saveNote = function(button, lat, lng) {
+            const textarea = button.previousElementSibling;
+            const note = textarea.value.trim();
+            
+            if (note) {
+                const marker = findMarkerByLatLng(lat, lng);
+                
+                if (marker) {
+                    marker.closePopup();
+                    marker.unbindPopup();
+                    marker.bindPopup(`<div class="note-content">${note}</div>`);
+                }
+            }
+        };
+
+        // Helper function to find a marker by coordinates
+        function findMarkerByLatLng(lat, lng) {
+            let foundMarker = null;
+            
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.Marker) {
+                    const position = layer.getLatLng();
+                    if (Math.abs(position.lat - lat) < 0.0001 && Math.abs(position.lng - lng) < 0.0001) {
+                        foundMarker = layer;
+                    }
+                }
+            });
+            
+            return foundMarker;
+        }
+    </script>
+</body>
+</html> 
