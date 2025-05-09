@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (linkWord && index < poem.length - 1) {
             // Create regex to find the link word/phrase with word boundaries
             const regex = new RegExp(`(\\b${linkWord}\\b)`, 'i');
-            lineHTML = text.replace(regex, `<span class="line-link" data-index="${index}">$1</span>`);
+            lineHTML = text.replace(regex, `<span class="keyword line-link" data-index="${index}" data-word="${linkWord.toLowerCase()}">$1</span>`);
         } else {
             lineHTML = text;
         }
@@ -248,10 +248,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupLineLink(linkElement, lineElement, index) {
         if (linkElement && index < poem.length - 1) {
             linkElement.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent any default behavior
-                e.stopPropagation(); // Stop event bubbling
+                // Add to inventory
+                const word = e.target.dataset.word;
+                if (typeof addToInventory === 'function') {
+                    addToInventory(word);
+                    e.target.classList.add('collected');
+                }
                 
-                if (currentLineIndex < poem.length - 1) {
+                // Original line creation logic
+                const nextIndex = index + 1;
+                if (nextIndex < poem.length) {
                     // Get exact position of the link element within the container
                     const linkRect = linkElement.getBoundingClientRect();
                     const containerRect = poemContainer.getBoundingClientRect();

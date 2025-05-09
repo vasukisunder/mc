@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 - Twitter Feed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="inventory.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            font-family: monospace;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .twitter-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 32px;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 275px;
+            padding: 20px 0 20px 0;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 30px;
+            padding: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item i {
+            margin-right: 20px;
+            font-size: 20px;
+        }
+
+        .main-content {
+            max-width: 600px;
+            width: 100%;
+            min-height: 100vh;
+            border-right: 1px solid #2f3336;
+            border-left: 1px solid #2f3336;
+
+            background: transparent;
+        }
+
+        .header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #2f3336;
+            position: sticky;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+        }
+
+        .tweet {
+            padding: 15px 20px;
+            border-bottom: 1px solid #2f3336;
+            display: flex;
+        }
+
+        .tweet-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .tweet-content {
+            flex: 1;
+        }
+
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .tweet-name {
+            font-weight: bold;
+            margin-right: 4px;
+        }
+
+        .tweet-username {
+            color: #71767b;
+            margin-right: 4px;
+        }
+
+        .tweet-dot {
+            color: #71767b;
+            margin: 0 4px;
+        }
+
+        .tweet-time {
+            color: #71767b;
+        }
+
+        .tweet-text {
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .tweet-actions {
+            display: flex;
+            justify-content: space-between;
+            max-width: 425px;
+            color: #71767b;
+        }
+
+        .tweet-action {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .tweet-action:hover {
+            color: #1d9bf0;
+        }
+
+        .tweet-action i {
+            margin-right: 8px;
+        }
+
+        .right-sidebar {
+            width: 325px;
+            padding: 20px 0 20px 20px;
+            flex-shrink: 0;
+        }
+
+        .search-bar {
+            background-color: #202327;
+            border-radius: 30px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar i {
+            color: #71767b;
+            margin-right: 10px;
+        }
+
+        .search-input {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 15px;
+            width: 100%;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        .trends {
+            background-color: #16181c;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .trends-header {
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .trend-item {
+            padding: 15px;
+            border-bottom: 1px solid #2f3336;
+            cursor: pointer;
+        }
+
+        .trend-item:hover {
+            background-color: #1e2124;
+        }
+
+        .trend-category {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        .trend-name {
+            font-weight: bold;
+            margin: 2px 0;
+        }
+
+        .trend-tweets {
+            font-size: 13px;
+            color: #71767b;
+        }
+
+        @media (max-width: 1200px) {
+            .twitter-container {
+                padding: 0 8px;
+            }
+            .right-sidebar {
+                display: none;
+            }
+        }
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
+        }
+
+        .tweet-composer {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px 20px 8px 20px;
+            border-bottom: 1px solid #2f3336;
+            background: transparent;
+            gap: 12px;
+        }
+        .tweet-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            resize: none;
+            margin-top: 4px;
+            margin-bottom: 0;
+            padding: 8px 0;
+            min-height: 40px;
+            max-height: 120px;
+            outline: none;
+        }
+        .tweet-btn {
+            background: #1d9bf0;
+            color: #fff;
+            border: none;
+            border-radius: 9999px;
+            padding: 8px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            opacity: 0.7;
+        }
+        .tweet-btn:enabled {
+            opacity: 1;
+        }
+        .tweet-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        #tweet-feed {
+            margin-top: 0;
+        }
+
+        .inventory-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 250px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            z-index: 9999;
+            display: none;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .inventory-panel.collapsed {
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .inventory-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: monospace;
+        }
+
+        .inventory-toggle {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .inventory-toggle:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .inventory-content {
+            max-height: 180px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            padding: 6px;
+            margin-bottom: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: monospace;
+        }
+
+        .inventory-item i {
+            margin-right: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .keyword {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-decoration-color: rgba(255, 255, 255, 0.3);
+            text-underline-offset: 2px;
+            transition: all 0.2s;
+        }
+
+        .keyword:hover {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .keyword.collected {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration-style: solid;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← back</a>
+    
+    <div class="twitter-container">
+        <div class="sidebar">
+            <div class="logo">𝕏</div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-search"></i>
+                <span>Explore</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Messages</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-bookmark"></i>
+                <span>Bookmarks</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h2>Home</h2>
+            </div>
+
+            <!-- Tweet Composer -->
+            <div class="tweet-composer">
+                <img src="https://i.pravatar.cc/48?img=4" class="tweet-avatar" alt="Your Avatar">
+                <textarea id="tweet-input" class="tweet-input" maxlength="280" placeholder="What's happening?" rows="2"></textarea>
+                <button id="tweet-btn" class="tweet-btn" disabled>Tweet</button>
+            </div>
+
+            <div id="tweet-feed">
+                <div class="tweet">
+                    <img src="https://i.pravatar.cc/48?img=1" class="tweet-avatar" alt="Avatar">
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <span class="tweet-name">dante</span>
+                            <span class="tweet-username">@dantealighieri</span>
+                            <span class="tweet-dot">·</span>
+                            <span class="tweet-time">2h</span>
+                        </div>
+                        <div class="tweet-text">
+                            midway upon the journey of our life, I found myself within a forest dark, for the straightforward pathway had been lost.
+                        </div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">
+                                <i class="far fa-comment"></i>
+                                <span>245</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="fas fa-retweet"></i>
+                                <span>1.2K</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-heart"></i>
+                                <span>3.4K</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-share-square"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tweet">
+                    <img src="https://i.pravatar.cc/48?img=2" class="tweet-avatar" alt="Avatar">
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <span class="tweet-name">virgil</span>
+                            <span class="tweet-username">@virgilpoet</span>
+                            <span class="tweet-dot">·</span>
+                            <span class="tweet-time">4h</span>
+                        </div>
+                        <div class="tweet-text">
+                            There is a place down there not grim with pain
+but only with sad shades whose deep laments
+sound not as screams but melancholy sighs.</div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">
+                                <i class="far fa-comment"></i>
+                                <span>189</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="fas fa-retweet"></i>
+                                <span>876</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-heart"></i>
+                                <span>2.1K</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-share-square"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tweet">
+                    <img src="https://i.pravatar.cc/48?img=3" class="tweet-avatar" alt="Avatar">
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <span class="tweet-name">melanie</span>
+                            <span class="tweet-username">@mc</span>
+                            <span class="tweet-dot">·</span>
+                            <span class="tweet-time">6h</span>
+                        </div>
+                        <div class="tweet-text">
+                            the love that moves the sun and the other stars guides us all.
+                        </div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">
+                                <i class="far fa-comment"></i>
+                                <span>312</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="fas fa-retweet"></i>
+                                <span>1.5K</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-heart"></i>
+                                <span>4.2K</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-share-square"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" class="search-input" placeholder="Search Twitter">
+            </div>
+
+            <div class="trends">
+                <div class="trends-header">Trends for you</div>
+                <div class="trend-item">
+                    <div class="trend-category">Trending in Literature</div>
+                    <div class="trend-name">#historicalfiction</div>
+                    <div class="trend-tweets">25.4K Tweets</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Trending in Poetry</div>
+                    <div class="trend-name">#divinecomedy</div>
+                    <div class="trend-tweets">18.2K Tweets</div>
+                </div>
+                <div class="trend-item">
+                    <div class="trend-category">Trending in Classics</div>
+                    <div class="trend-name">#purgatorio</div>
+                    <div class="trend-tweets">12.7K Tweets</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">Collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
+    <script src="inventory.js"></script>
+    <script>
+        const tweetInput = document.getElementById('tweet-input');
+        const tweetBtn = document.getElementById('tweet-btn');
+
+        tweetInput.addEventListener('input', function() {
+            tweetBtn.disabled = tweetInput.value.trim() === '';
+            // Auto-resize textarea
+            tweetInput.style.height = 'auto';
+            tweetInput.style.height = tweetInput.scrollHeight + 'px';
+        });
+
+        tweetBtn.addEventListener('click', function() {
+            const tweetText = tweetInput.value;
+            if (tweetText.trim() !== '') {
+                const newTweet = document.createElement('div');
+                newTweet.className = 'tweet';
+                newTweet.innerHTML = `
+                    <img src="https://i.pravatar.cc/48?img=4" class="tweet-avatar" alt="Your Avatar">
+                    <div class="tweet-content">
+                        <div class="tweet-header">
+                            <span class="tweet-name">You</span>
+                            <span class="tweet-username">@you</span>
+                            <span class="tweet-dot">·</span>
+                            <span class="tweet-time">Just now</span>
+                        </div>
+                        <div class="tweet-text">${tweetText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+                        <div class="tweet-actions">
+                            <div class="tweet-action">
+                                <i class="far fa-comment"></i>
+                                <span>0</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="fas fa-retweet"></i>
+                                <span>0</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-heart"></i>
+                                <span>0</span>
+                            </div>
+                            <div class="tweet-action">
+                                <i class="far fa-share-square"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('tweet-feed').prepend(newTweet);
+                tweetInput.value = '';
+                tweetBtn.disabled = true;
+                tweetInput.style.height = '40px';
+            }
+        });
+
+        // Initialize keywords for this page
+        const keywords = ['melancholy'];
+        
+        // Make keywords clickable when the page loads
+        window.addEventListener('load', () => {
+            makeKeywordsClickable(keywords, document.querySelectorAll('.tweet-text'));
+        });
+
+        // Update keywords when new tweets are added
+        tweetBtn.addEventListener('click', function() {
+            setTimeout(() => {
+                makeKeywordsClickable(keywords, document.querySelectorAll('.tweet-text'));
+            }, 0);
+        });
+    </script>
+</body>
+</html> 

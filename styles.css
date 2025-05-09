@@ -19,7 +19,6 @@ body {
     justify-content: center;
     align-items: flex-start;
     padding: 20px;
-    text-transform: lowercase;
     position: relative;
     padding-top: 100px;
 }

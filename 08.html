@@ -77,12 +77,28 @@
             background: rgba(255, 255, 255, 0.2);
         }
     </style>
+    <link rel="stylesheet" href="inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <a href="index.html" class="back-button">← back</a>
     <div class="container">
         <div class="space"></div>
     </div>
+
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">Collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
+    <div id="tunnel-container"></div>
 
     <script>
         const space = document.querySelector('.space');
@@ -159,6 +175,11 @@
         window.addEventListener('scroll', (e) => {
             e.preventDefault();
         }, { passive: false });
+
+        makeKeywordsClickable(['darkness']);
+    </script>
+    <script src="inventory.js"></script>
+    <script>
     </script>
 </body>
 </html> 

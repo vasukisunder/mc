@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11</title>
+    <link rel="stylesheet" href="11.css">
+    <link rel="stylesheet" href="inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <a href="./index.html" class="back">back</a>
+    
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">Collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div class="captcha-container">
+            <!-- Light Intensity CAPTCHA (keeping one image selection) -->
+            <div class="captcha-box" id="light-captcha">
+                <div class="captcha-header">
+                    <span class="captcha-title">Select the correct images</span>
+                    <button class="refresh-captcha"><i class="fas fa-redo-alt"></i></button>
+                </div>
+                <div class="grid-captcha">
+                    <div class="grid-item" data-light="false"></div>
+                    <div class="grid-item" data-light="true"></div>
+                    <div class="grid-item" data-light="false"></div>
+                    <div class="grid-item" data-light="true"></div>
+                    <div class="grid-item" data-light="false"></div>
+                    <div class="grid-item" data-light="true"></div>
+                    <div class="grid-item" data-light="true"></div>
+                    <div class="grid-item" data-light="false"></div>
+                    <div class="grid-item" data-light="true"></div>
+                </div>
+                <button class="verify-button">Verify</button>
+            </div>
+
+            <!-- Path Selection CAPTCHA (keeping this one) -->
+            <div class="captcha-box" id="path-captcha">
+                <div class="captcha-header">
+                    <span class="captcha-title">Arrange images from lowest to highest elevation</span>
+                    <button class="refresh-captcha"><i class="fas fa-redo-alt"></i></button>
+                </div>
+                <div class="path-selection">
+                    <div class="path-item" data-elevation="3" draggable="true">
+                        <span class="order-number">3</span>
+                    </div>
+                    <div class="path-item" data-elevation="1" draggable="true">
+                        <span class="order-number">1</span>
+                    </div>
+                    <div class="path-item" data-elevation="2" draggable="true">
+                        <span class="order-number">2</span>
+                    </div>
+                </div>
+                <button class="verify-button">Verify</button>
+            </div>
+        </div>
+
+        <div class="completion-message">
+            <h2>Identity Verified</h2>
+            <p>You have successfully completed all verification tests.</p>
+            <p class="keyword-hint">You've unlocked the keyword: <span class="keyword" data-word="ascension">ascension</span></p>
+        </div>
+    </div>
+
+    <script src="11.js"></script>
+    <script src="inventory.js"></script>
+    <script>
+        // Initialize keywords for this page
+        const keywords = ['ascension'];
+        
+        // Make keywords clickable when the page loads
+        window.addEventListener('load', () => {
+            makeKeywordsClickable(keywords);
+        });
+    </script>
+</body>
+</html> 

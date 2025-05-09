@@ -1,6 +1,6 @@
 body {
     font-family: monospace;
-    background-color: #f5f5dc; /* cream color */
+    background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
     overflow-x: hidden;
@@ -14,7 +14,7 @@ body {
     left: 20px;
     text-decoration: none;
     color: #333;
-    font-size: 12px;
+    font-size: 14px;
     z-index: 1000;
 }
 
@@ -28,8 +28,10 @@ body {
     overflow: hidden;
     z-index: 10;
     font-family: monospace;
+    padding: 15px;
+    transition: opacity 2s ease-in-out;
+    cursor: move; 
     opacity: 1;
-    transition: opacity 8s ease-in-out;
 }
 
 /* Position the initial popup in the center */
@@ -37,28 +39,18 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    opacity: 1;
 }
 
-.popup-header {
-    background: #4a76a8;
-    color: white;
-    border-bottom: 1px solid #444;
-    padding: 6px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: move;
-    font-size: 12px;
-}
-
-.popup-title {
-    font-weight: bold;
+/* Class for fading popups */
+.fading-popup {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .popup-content {
-    padding: 15px;
     line-height: 1.5;
-    font-size: 12px;
+    font-size: 12px; 
 }
 
 .popup-link {
@@ -70,8 +62,4 @@ body {
 .popup-link:hover {
     text-decoration: underline;
     background-color: #ffffcc;
-}
-
-.fading {
-    opacity: 0;
 } 

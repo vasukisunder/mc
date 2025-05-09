@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dante's purgatorio</title>
+    <title>dante</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>dante's purgatorio</h1>
+        <h1>dante</h1>
         
         <div class="links-container">
             <div class="link-item">
@@ -56,8 +58,41 @@
                 <a href="09.html" class="link">09</a>
                 <p class="link-description">interactive map</p>
             </div>
+
+            <div class="link-item">
+                <a href="10.html" class="link">10</a>
+                <p class="link-description">twitter feed</p>
+            </div>
+            
+            <div class="link-item">
+                <a href="11.html" class="link">11</a>
+                <p class="link-description">security verification tests</p>
+            </div>
         </div>
     </div>
+
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">Collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="inventory.js"></script>
+    <script>
+        // Initialize keywords for this page
+        const keywords = ['purgatorio', 'journey', 'poetry'];
+        
+        // Make keywords clickable when the page loads
+        window.addEventListener('load', () => {
+            makeKeywordsClickable(keywords);
+        });
+    </script>
 </body>
 </html> 

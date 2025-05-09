@@ -73,6 +73,26 @@ body {
     pointer-events: none; /* Allow interactions with elements beneath the line */
 }
 
+.keyword {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: rgba(255, 0, 0, 0.5);
+    text-underline-offset: 2px;
+    transition: all 0.2s;
+    color: rgba(255, 0, 0, 0.8);
+}
+
+.keyword:hover {
+    color: rgba(255, 0, 0, 1);
+    text-decoration-color: rgba(255, 0, 0, 0.8);
+}
+
+.keyword.collected {
+    color: rgba(255, 0, 0, 0.9);
+    text-decoration-style: solid;
+}
+
 @media (max-width: 768px) {
     .poem-line {
         font-size: 1.2rem;

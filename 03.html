@@ -5,21 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>03</title>
     <link rel="stylesheet" href="03.css">
+    <link rel="stylesheet" href="inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <a href="./index.html" class="back">back</a>
-    <div class="masonry-grid">
-        <!-- Grid items - all initialized as videos via JavaScript -->
-        <div class="grid-item"></div>
-        <div class="grid-item wide"></div>
-        <div class="grid-item tall"></div>
-        <div class="grid-item"></div>
-        <div class="grid-item wide-tall"></div>
-        <div class="grid-item"></div>
-        <div class="grid-item tall"></div>
-        <div class="grid-item wide"></div>
-    </div>
     
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">Collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
+    <div id="masonry-container"></div>
+
     <script src="03.js"></script>
+    <script src="inventory.js"></script>
+    <script>
+        // Initialize keywords for this page
+        const keywords = ['mountain'];
+        
+        // Make keywords clickable when the page loads
+        window.addEventListener('load', () => {
+            makeKeywordsClickable(keywords);
+        });
+    </script>
 </body>
 </html> 
