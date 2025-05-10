@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const poemContainer = document.getElementById('poem-container');
     
-    // Enhanced poem structure with linkWord property for each line
     const poem = [
         { text: "When past the threshold of the Gate we were,", linkWord: "threshold" },
         { text: "whose use the evil love of souls impairs,", linkWord: "evil love" },
@@ -48,13 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
         lineElement.classList.add('hidden'); // Use class for visibility
         lineElement.style.zIndex = '1'; // Ensure text is above connecting lines
         
-        // For the text and link
         let lineHTML = '';
         
         const text = lineData.text;
         const linkWord = lineData.linkWord;
         
-        // Build the line HTML with the link
         if (linkWord && index < poem.length - 1) {
             // Create regex to find the link word/phrase with word boundaries
             const regex = new RegExp(`(\\b${linkWord}\\b)`, 'i');

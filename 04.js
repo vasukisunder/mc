@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     let popupCount = 1;
     
-    // Verses from Dante's Purgatory with linked words
     const purgatorioVerses = [
         {
             text: "With equal steps, like oxen going yoked, I went along beside that <a href='#' class='popup-link' data-text='Virgil, who is Dante's guide through Hell and Purgatory.'>burdened</a> soul, as long as my dear <a href='#' class='popup-link' data-text='Virgil refers to himself as Dante's teacher or pedagogue.'>Pedagogue</a> allowed.",
