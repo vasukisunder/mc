@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    background-color: white;
+    font-family: Arial, sans-serif;
+}
+
+.back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    z-index: 1000;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+iframe {
+    border: none;
+    width: 100%;
+    min-height: 800px;
+}
+
+/* Inventory panel styles */
+.inventory-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+.inventory-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: monospace;
+}
+
+.inventory-toggle {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-toggle:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.inventory-content {
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 4px;
+} 

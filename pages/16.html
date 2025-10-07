@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16 - Circle Tunnel</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            perspective: 3500px;
+            overflow: hidden;
+        }
+
+        .space {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            transform-origin: center;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.65rem;
+            text-align: center;
+            pointer-events: none;
+            font-style: italic;
+            padding: 0 5px;
+            max-width: 190px;
+            letter-spacing: 0.5px;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            font-family: monospace;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    <link rel="stylesheet" href="../inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <a href="../index.html" class="back-button">← back</a>
+    <div class="container">
+        <div class="space"></div>
+    </div>
+
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">Collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
+    <script>
+        const space = document.querySelector('.space');
+        const numCircles = 50;
+        const spacing = 300;
+
+        const circleTexts = [
+            "Through me you pass into eternal pain",
+            "Into the eternal darkness",
+            "Through me among the lost people",
+            "Abandon all hope",
+            "The way into the suffering city",
+            "Sacred justice moved my architect",
+            "I was constructed by divine power",
+            "Supreme wisdom and primal love",
+            "Before me nothing but eternal things",
+            "Were created, and I endure eternal",
+            "Leave behind all hesitation",
+            "Your fear will be forgotten",
+            "The path leads onward",
+            "Time leaves us behind",
+            "The stars move above",
+            "The sun is silent",
+            "The moon is dark",
+            "The stars are hidden",
+            "The way is lost",
+            "The path is gone",
+            "The light is dim",
+            "The dark is deep",
+            "The way is long",
+            "The path is steep",
+            "The climb is hard",
+            "The way is narrow",
+            "The path is winding",
+            "The way is dark",
+            "The path is lost",
+            "The way is gone",
+            "The stars are silent",
+            "The moon is hidden",
+            "The sun is dark",
+            "The way is long",
+            "The path is steep",
+            "The climb is hard",
+            "The way is narrow",
+            "The path is winding",
+            "The way is dark",
+            "The path is lost",
+            "The way is gone",
+            "The stars are silent",
+            "The moon is hidden",
+            "The sun is dark",
+            "The way is long",
+            "The path is steep",
+            "The climb is hard",
+            "The way is narrow",
+            "The path is winding",
+            "The way is dark"
+        ];
+
+        // Create circles
+        for (let i = 0; i < numCircles; i++) {
+            const circle = document.createElement('div');
+            circle.className = 'circle';
+            circle.style.transform = `translate(-50%, -50%) translateZ(${-i * spacing}px)`;
+            
+            const text = document.createElement('div');
+            text.className = 'circle-text';
+            text.textContent = circleTexts[i];
+            circle.appendChild(text);
+            
+            space.appendChild(circle);
+        }
+
+        let currentPosition = 0;
+        const maxScroll = (numCircles - 1) * spacing;
+        const scrollSpeed = 1.2;
+
+        function updateCircles() {
+            const circles = document.querySelectorAll('.circle');
+            circles.forEach((circle, index) => {
+                const z = -index * spacing;
+                const relativeZ = z + currentPosition;
+                
+                // Calculate rotation and translation based on depth
+                const rotationAngle = (relativeZ / 1000) * 45; // Rotate up to 45 degrees
+                const xOffset = Math.sin(relativeZ / 1000) * 200; // Move side to side
+                const yOffset = Math.cos(relativeZ / 1000) * 200; // Move up and down
+                
+                const scale = relativeZ > 0 ? 
+                    1 + (relativeZ / 800) : 
+                    1 / (1 - (relativeZ / 3000));
+                
+                const distance = Math.abs(relativeZ);
+                const opacity = Math.max(0.1, Math.min(1, 
+                    relativeZ > 0 ? 
+                    1 - (relativeZ / 3000) : 
+                    1 - (distance / 3000)
+                ));
+
+                // Apply rotation and translation along with the existing transforms
+                circle.style.transform = `
+                    translate(-50%, -50%) 
+                    translateZ(${z}px) 
+                    translateX(${xOffset}px) 
+                    translateY(${yOffset}px) 
+                    rotateZ(${rotationAngle}deg) 
+                    scale(${scale})
+                `;
+                circle.style.opacity = opacity;
+            });
+        }
+
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            currentPosition = Math.max(-maxScroll, Math.min(maxScroll, currentPosition + (e.deltaY * scrollSpeed)));
+            space.style.transform = `translateZ(${currentPosition}px)`;
+            updateCircles();
+        }, { passive: false });
+
+        updateCircles();
+
+        window.addEventListener('scroll', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+    <script src="../inventory.js"></script>
+</body>
+</html> 

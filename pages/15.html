@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15</title>
+    <link rel="stylesheet" href="15.css">
+    <link rel="stylesheet" href="../inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <a href="../index.html" class="back">back</a>
+    <div class="inventory-panel">
+        <div class="inventory-header">
+            <span class="inventory-title">collection</span>
+            <button class="inventory-toggle">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="inventory-content">
+            <!-- Items will be added here dynamically -->
+        </div>
+    </div>
+
+    <div class="form-container">
+        <div class="question" id="question1">
+            <h2>what mountain would you climb?</h2>
+            <div class="options">
+                <button class="option">alone</button>
+                <button class="option">with a guide</button>
+                <button class="option">with friends</button>
+                <button class="option">never</button>
+            </div>
+        </div>
+
+        <div class="question" id="question2" style="display: none;">
+            <h2>how do you feel about waiting?</h2>
+            <div class="options">
+                <button class="option">patient</button>
+                <button class="option">restless</button>
+                <button class="option">indifferent</button>
+                <button class="option">afraid</button>
+            </div>
+        </div>
+
+        <div class="question" id="question3" style="display: none;">
+            <h2>what would you carve into stone?</h2>
+            <div class="options">
+                <button class="option">your name</button>
+                <button class="option">a message</button>
+                <button class="option">a symbol</button>
+                <button class="option">nothing</button>
+            </div>
+        </div>
+
+        <div class="question" id="question4" style="display: none;">
+            <h2>describe your last dream:</h2>
+            <textarea class="text-input" placeholder="type your answer here..."></textarea>
+            <button class="submit-text">submit</button>
+        </div>
+
+        <div class="question" id="question5" style="display: none;">
+            <h2>how heavy is your burden?</h2>
+            <div class="rating">
+                <button class="rating-option">1</button>
+                <button class="rating-option">2</button>
+                <button class="rating-option">3</button>
+                <button class="rating-option">4</button>
+                <button class="rating-option">5</button>
+            </div>
+        </div>
+
+        <div class="question" id="question6" style="display: none;">
+            <h2>what would you ask a poet?</h2>
+            <div class="options">
+                <button class="option">about love</button>
+                <button class="option">about death</button>
+                <button class="option">about life</button>
+                <button class="option">nothing</button>
+            </div>
+        </div>
+
+        <div class="question" id="question7" style="display: none;">
+            <h2>describe your perfect garden:</h2>
+            <textarea class="text-input" placeholder="type your answer here..."></textarea>
+            <button class="submit-text">submit</button>
+        </div>
+
+        <div class="question" id="question8" style="display: none;">
+            <h2>what would you purge?</h2>
+            <div class="options">
+                <button class="option">memories</button>
+                <button class="option">desires</button>
+                <button class="option">fears</button>
+                <button class="option">nothing</button>
+            </div>
+        </div>
+
+        <div class="question" id="question9" style="display: none;">
+            <h2>how do you feel about stars?</h2>
+            <div class="options">
+                <button class="option">in awe</button>
+                <button class="option">indifferent</button>
+                <button class="option">afraid</button>
+                <button class="option">curious</button>
+            </div>
+        </div>
+
+        <div class="question" id="question10" style="display: none;">
+            <h2>describe your last prayer:</h2>
+            <textarea class="text-input" placeholder="type your answer here..."></textarea>
+            <button class="submit-text">submit</button>
+        </div>
+
+        <div class="question" id="question11" style="display: none;">
+            <h2>what would you ask a ghost?</h2>
+            <div class="options">
+                <button class="option">about heaven</button>
+                <button class="option">about hell</button>
+                <button class="option">about earth</button>
+                <button class="option">nothing</button>
+            </div>
+        </div>
+
+        <div class="question" id="question12" style="display: none;">
+            <h2>how do you feel about light?</h2>
+            <div class="rating">
+                <button class="rating-option">1</button>
+                <button class="rating-option">2</button>
+                <button class="rating-option">3</button>
+                <button class="rating-option">4</button>
+                <button class="rating-option">5</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="15.js"></script>
+    <script src="../inventory.js"></script>
+</body>
+</html> 
